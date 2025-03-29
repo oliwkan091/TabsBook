@@ -73,8 +73,8 @@ namespace HoldMyTabs
                 try
                 {
                     ProjectItem proj = dte.Solution.FindProjectItem(tab.FullName);
-                    if (proj == null)
-                        continue;
+                    //if (proj == null)
+                    //    continue;
 
                     Document document = dte.Documents.Open(tab.FullName);
 
