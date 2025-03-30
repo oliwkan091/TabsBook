@@ -30,6 +30,12 @@
     called "command set" and is used to group different command inside a logically related
     group; your package should define its own command set in order to avoid collisions
     with command ids defined by other packages. -->
+    
+    <Groups>
+      <Group guid="HoldMyTabsPackageCommandSet" id="ToolMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_EXTENSIONS" />
+      </Group>
+    </Groups>
 
     <!--Buttons section. -->
     <!--This section defines the elements the user can interact with, like a menu command or a button
@@ -43,7 +49,7 @@
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="HoldMyTabsPackageCommandSet" id="SaveTabsWindowCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1" />
+        <Parent guid="HoldMyTabsPackageCommandSet" id="ToolMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
           <ButtonText>Save Open Tabs</ButtonText>
@@ -70,6 +76,7 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="HoldMyTabsPackageCommandSet" value="{251a4762-0953-4fa2-928c-9b21b7aed94a}">
       <IDSymbol name="SaveTabsWindowCommandId" value="0x0100" />
+      <IDSymbol name="ToolMenuGroup" value="0x1020" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{01cb55f7-2e64-482d-881e-2abaf355b5b3}">
