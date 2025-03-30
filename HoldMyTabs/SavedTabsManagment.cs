@@ -9,7 +9,7 @@ namespace HoldMyTabs
     internal static class SavedTabsManagment
     {
 
-        private const string savFileName = "SolutionsSettings.txt";
+        private const string saveFileName = "SolutionsSettings.txt";
 
         internal class Tab(string fullName, bool isPinned)
         {
@@ -43,7 +43,7 @@ namespace HoldMyTabs
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
         private static string SolutionsSettingsFilePath =>
-            Path.Combine(ExtensionFolder, savFileName);
+            Path.Combine(ExtensionFolder, saveFileName);
 
         private static void SaveSolutionsSettingsFile(SavedTabsFile solutionsSettings)
         {
