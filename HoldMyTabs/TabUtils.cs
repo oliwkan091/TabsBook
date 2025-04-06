@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using EnvDTE;
 using EnvDTE80;
@@ -16,15 +17,11 @@ namespace HoldMyTabs
 
             foreach (Document document in documents)
             {
-                Window activeWindow = document.ActiveWindow;
-
-                if (activeWindow == null)
-                    continue;
-
                 bool isPinned = IsDocumentPinned(document);
 
-                if (pinnedOnly && !isPinned)
-                    continue;
+                //TODO 
+                //if (pinnedOnly && !isPinned)
+                //    continue;
 
                 yield return new Tab(document.FullName, isPinned);
             }
@@ -68,7 +65,14 @@ namespace HoldMyTabs
 
             List<string> tabsThatWereNotRestored = new List<string>();
 
-            foreach (var tab in solution.Tabs)
+            var pinnedTabs = solution.Tabs.Where(x => x.IsPinned).ToList();
+            var notPinnedTabs = solution.Tabs.Where(x => !x.IsPinned).ToList();
+            notPinnedTabs.Reverse();
+
+            var allTabs = new List<Tab>();
+            allTabs.AddRange(pinnedTabs);
+            allTabs.AddRange(notPinnedTabs);
+            foreach (var tab in allTabs)
             {
                 try
                 {
