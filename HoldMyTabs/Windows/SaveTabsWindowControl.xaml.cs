@@ -1,10 +1,12 @@
 ﻿using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using static HoldMyTabs.SavedTabsManagment;
@@ -19,7 +21,18 @@ namespace HoldMyTabs
         public SaveTabsWindowControl()
         {
             InitializeComponent();
-            LoadData();
+
+            this.Loaded += InitializeOnWindowOpenDelegate;
+        }
+
+        private void InitializeOnWindowOpenDelegate(object sender, RoutedEventArgs e)
+        {
+            InitializeOnWindowOpen();
+        }
+
+        public void InitializeOnWindowOpen()
+        {
+            LoadSavedTabs();
             InitializeFields();
         }
 
@@ -28,13 +41,12 @@ namespace HoldMyTabs
             string newEntry = FileNameTextBox.Text;
             names.Add(newEntry);
             comboSavedInfo.SelectedItem = newEntry;
-            SaveData();
+            SaveNewTab();
         }
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-
             var solution = this.solutionSettings.Solutions.FirstOrDefault(s =>
                 string.Equals(s.Name, comboSavedInfo.SelectedItem.ToString(), StringComparison.OrdinalIgnoreCase));
 
@@ -49,8 +61,8 @@ namespace HoldMyTabs
         {
             if (comboSavedInfo.SelectedItem != null)
             {
+                DeleteTab(comboSavedInfo.SelectedItem.ToString());
                 names.Remove(comboSavedInfo.SelectedItem.ToString());
-                SaveData();
                 if (names.Any())
                 {
                     comboSavedInfo.SelectedItem = names[0];
@@ -62,28 +74,33 @@ namespace HoldMyTabs
             }
         }
 
-        public void LoadData()
+        private SavedTabsFile LoadSolutionSettings()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            DTE2 dte = (DTE2)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
+            return SavedTabsManagment.GetSavedSolution(dte.Solution.FullName);
+        }
+
+        private void LoadSavedTabs()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            DTE2 dte = (DTE2)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
+            this.solutionSettings = LoadSolutionSettings();
 
-            this.solutionSettings = SavedTabsManagment.GetSavedSolution(dte.Solution.FullName);
-
-            names = new ObservableCollection<string>();
             if (this.solutionSettings is null)
+            {
+                //TODO zamykanie okna
                 return;
+            }      
 
+            //TODO dane SolutionSettings są wczytywane przed każdą operacją ale dane names nie są aktualiowane 
+            names = new ObservableCollection<string>();
             foreach (var solution in this.solutionSettings.Solutions)
             {
                 names.Add(solution.Name);
             }
 
             comboSavedInfo.ItemsSource = names;
-            if (names.Any())
-            { 
-                comboSavedInfo.SelectedItem = names[0];
-            }
         }
 
         private void InitializeFields()
@@ -91,14 +108,23 @@ namespace HoldMyTabs
             FileNameTextBox.Text = $"Entry {DateTime.Now:yyyy-MM-dd HH:mm:ss}";
         }
 
-        private void SaveData()
+        private void DeleteTab(string fileToDeleteName)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var solution = this.solutionSettings.Solutions.FirstOrDefault(s =>
+                string.Equals(s.Name, fileToDeleteName, StringComparison.OrdinalIgnoreCase));
+            this.solutionSettings.Solutions.Remove(solution);
+            SavedTabsManagment.SaveSolution(this.solutionSettings);
+        }
+
+        private void SaveNewTab()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             DTE2 dte = (DTE2)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
             SavedTabsManagment.Solution solution = new(dte.Solution.FullName, FileNameTextBox.Text);
             solution.Tabs.AddRange(TabUtils.ExtractAllOpenTabs(dte.Documents));
             this.solutionSettings.Solutions.Add(solution);
-            SavedTabsManagment.SaveNewSolution(solution);
+            SavedTabsManagment.SaveSolution(this.solutionSettings);
         }
     }
 }

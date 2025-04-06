@@ -23,4 +23,5 @@
             <Button Name="btnDelete" Width="75" Height="25" Click="btnDelete_Click">Delete</Button>
         </StackPanel>
     </Grid>
+    
 </UserControl>

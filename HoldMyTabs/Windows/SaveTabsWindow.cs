@@ -7,12 +7,12 @@ namespace HoldMyTabs
     [Guid("251a4762-0953-4fa2-928c-9b21b7aed94a")]
     public class SaveTabsWindow : ToolWindowPane
     {
+        private SaveTabsWindowControl _saveTabsWindowControl;
         public SaveTabsWindow() : base(null)
         {
             this.Caption = "Save Tabs";
-
-            this.Content = new SaveTabsWindowControl();
+            _saveTabsWindowControl = new SaveTabsWindowControl();
+            this.Content = _saveTabsWindowControl;
         }
-
     }
 }

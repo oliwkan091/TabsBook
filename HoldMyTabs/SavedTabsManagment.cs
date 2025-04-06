@@ -84,16 +84,12 @@ namespace HoldMyTabs
             return GetSavedSolutionsSettings();
         }
 
-        public static void SaveNewSolution(Solution newSolution)
+        public static void SaveSolution(SavedTabsFile solutionSettings)
         {
-            var solutionsSettings = GetAllSolutions();
-            Directory.CreateDirectory(ExtensionFolder);
-
-            if (newSolution is null )
+            if (solutionSettings is null)
                 return;
 
-            solutionsSettings.Solutions.Add(newSolution);
-            SaveSolutionsSettingsFile(solutionsSettings);
+            SaveSolutionsSettingsFile(solutionSettings);
         }
     }
 }
