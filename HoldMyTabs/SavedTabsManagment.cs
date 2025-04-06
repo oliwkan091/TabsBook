@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace HoldMyTabs
 {
@@ -56,7 +57,13 @@ namespace HoldMyTabs
             if (File.Exists(SolutionsSettingsFilePath))
             {
                 string loadedSolutionsSettings = File.ReadAllText(SolutionsSettingsFilePath);
-                return JsonConvert.DeserializeObject<SavedTabsFile>(loadedSolutionsSettings);
+                var deserializedJson  = JsonConvert.DeserializeObject<SavedTabsFile>(loadedSolutionsSettings);
+                if(deserializedJson is null)
+                {
+                    return CreateNewSolutionSettings();
+                }
+
+                return deserializedJson;
             }
             else
             {
@@ -64,6 +71,13 @@ namespace HoldMyTabs
                 SaveSolutionsSettingsFile(newSettings);
                 return newSettings;
             }
+        }
+
+        private static SavedTabsFile CreateNewSolutionSettings()
+        {
+            SavedTabsFile newSettings = new();
+            SaveSolutionsSettingsFile(newSettings);
+            return newSettings;
         }
 
         public static SavedTabsFile GetSavedSolution(string solutionName)
