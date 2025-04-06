@@ -50,9 +50,9 @@
     <Compile Include="HoldMyTabsPackage.cs" />
     <Compile Include="SavedTabsManagment.cs" />
     <Compile Include="TabUtils.cs" />
-    <Compile Include="Windows\SaveTabsWindow.cs" />
-    <Compile Include="Windows\SaveTabsWindowCommand.cs" />
-    <Compile Include="Windows\SaveTabsWindowControl.xaml.cs">
+    <Compile Include="Windows\SaveTabsWindow\SaveTabsWindow.cs" />
+    <Compile Include="Windows\SaveTabsWindow\SaveTabsWindowCommand.cs" />
+    <Compile Include="Windows\SaveTabsWindow\SaveTabsWindowControl.xaml.cs">
       <DependentUpon>SaveTabsWindowControl.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -79,16 +79,17 @@
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.13.2127" NoWarn="NU1604" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Windows\SaveTabsWindowControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <VSCTCompile Include="HoldMyTabsPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
     <Content Include="Resources\BaseIcons.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Windows\SaveTabsWindow\SaveTabsWindowControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />

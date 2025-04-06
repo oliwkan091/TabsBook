@@ -44,8 +44,7 @@ namespace HoldMyTabs
             ToolWindowPane window = this.FindToolWindow(typeof(SaveTabsWindow), 0, true);
             if ((null == window) || (null == window.Frame))
             {
-                //TODO
-                throw new NotSupportedException("Cannot create tool window");
+                return;
             }
 
             IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
