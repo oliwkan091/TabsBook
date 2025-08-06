@@ -10,8 +10,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using static HoldMyTabs.SavedTabsManagment;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using MessageBox = System.Windows.MessageBox;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace HoldMyTabs
 {
@@ -41,10 +44,21 @@ namespace HoldMyTabs
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            string newEntry = FileNameTextBox.Text;
-            names.Add(newEntry);
-            comboSavedInfo.SelectedItem = newEntry;
-            SaveNewTab();
+            ThreadHelper.ThrowIfNotOnUIThread();
+            DialogResult result = System.Windows.Forms.MessageBox.Show(
+               "Did you restart Visual Studio before save?",
+               "Confirm Save",
+               MessageBoxButtons.YesNo,
+               MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                string newEntry = FileNameTextBox.Text;
+                names.Add(newEntry);
+                comboSavedInfo.SelectedItem = newEntry;
+                SaveNewTab();
+            }
         }
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
@@ -83,6 +97,7 @@ namespace HoldMyTabs
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             if (comboSavedInfo.SelectedItem != null)
             {
                 DeleteTab(comboSavedInfo.SelectedItem.ToString());
