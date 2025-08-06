@@ -6,7 +6,7 @@
     
     <Groups>
       <Group guid="HoldMyTabsPackageCommandSet" id="ToolMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_EXTENSIONS" />
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
       </Group>
     </Groups>
     
