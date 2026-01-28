@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,7 +22,7 @@ namespace HoldMyTabs
     public partial class SaveTabsWindowControl : UserControl
     {
         private ObservableCollection<string> names;
-        private SavedTabsFile solutionSettings;
+        private SavedSollutions solutionSettings;
         private readonly ToolWindowPane _toolWindowPane;
 
         public SaveTabsWindowControl(ToolWindowPane toolWindowPane)
@@ -45,19 +46,25 @@ namespace HoldMyTabs
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            DialogResult result = System.Windows.Forms.MessageBox.Show(
-               "Did you restart Visual Studio before save?",
-               "Confirm Save",
-               MessageBoxButtons.YesNo,
-               MessageBoxIcon.Question
-            );
 
-            if (result == DialogResult.Yes)
+            string newEntry = FileNameTextBox.Text;
+            if (!names.Contains(newEntry))
             {
-                string newEntry = FileNameTextBox.Text;
-                names.Add(newEntry);
+                names.Insert(0, newEntry);
                 comboSavedInfo.SelectedItem = newEntry;
                 SaveNewTab();
+            }
+            else
+            {
+                var serviceProvider = ServiceProvider.GlobalProvider;
+                VsShellUtilities.ShowMessageBox(
+                   serviceProvider,
+                   "Nazwa już istnieje",
+                   "Uwaga",
+                   OLEMSGICON.OLEMSGICON_WARNING,
+                   OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                   OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
+               );
             }
         }
 
@@ -106,6 +113,22 @@ namespace HoldMyTabs
                 {
                     comboSavedInfo.SelectedItem = names[0];
                 }
+
+                IVsStatusbar statusBar = (IVsStatusbar)ServiceProvider.GlobalProvider.GetService(typeof(SVsStatusbar));
+                if (statusBar != null)
+                {
+                    int frozen;
+                    statusBar.IsFrozen(out frozen);
+
+                    if (frozen == 0)
+                    {
+                        statusBar.SetText("Usunięto");
+                    }
+                }
+                else
+                {
+                    statusBar.SetText("Nie można usunąć");
+                }
             }
             else
             {
@@ -113,7 +136,7 @@ namespace HoldMyTabs
             }
         }
 
-        private SavedTabsFile LoadSolutionSettings()
+        private SavedSollutions LoadSolutionSettings()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             DTE2 dte = (DTE2)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
@@ -160,7 +183,7 @@ namespace HoldMyTabs
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             DTE2 dte = (DTE2)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
-            SavedTabsManagment.Solution solution = new(dte.Solution.FullName, FileNameTextBox.Text);
+            SavedTabsManagment.Solution solution = new(dte.Solution.FullName, FileNameTextBox.Text, DateTime.UtcNow);
             solution.Tabs.AddRange(TabUtils.ExtractAllOpenTabs(dte.Documents));
             this.solutionSettings.Solutions.Add(solution);
             SavedTabsManagment.SaveSolution(this.solutionSettings);

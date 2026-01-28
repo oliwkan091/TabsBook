@@ -18,20 +18,21 @@ namespace HoldMyTabs
             public bool IsPinned { get; set; } = isPinned;
         }
 
-        internal class Solution(string fullName, string name)
+        internal class Solution(string fullName, string name, DateTime? creatDate)
         {
             public string FullName { get; set; } = fullName;
             public string Name { get; set; } = name;
+            public DateTime? CreatDate { get; set; } = creatDate ?? DateTime.UtcNow;
             public List<Tab> Tabs { get; set; } = [];
         }
 
-        internal class SavedTabsFile
+        internal class SavedSollutions
         {
-            public SavedTabsFile()
+            public SavedSollutions()
             {
             }
 
-            public SavedTabsFile(List<Solution> solutions)
+            public SavedSollutions(List<Solution> solutions)
             {
                 Solutions = solutions;
             }
@@ -46,18 +47,18 @@ namespace HoldMyTabs
         private static string SolutionsSettingsFilePath =>
             Path.Combine(ExtensionFolder, saveFileName);
 
-        private static void SaveSolutionsSettingsFile(SavedTabsFile solutionsSettings)
+        private static void SaveSolutionsSettingsFile(SavedSollutions solutionsSettings)
         {
             string serializedSaveFile = JsonConvert.SerializeObject(solutionsSettings, Formatting.Indented);
             File.WriteAllText(SolutionsSettingsFilePath, serializedSaveFile);
         }
 
-        private static SavedTabsFile GetSavedSolutionsSettings()
+        private static SavedSollutions GetSavedSolutionsSettings()
         {
             if (File.Exists(SolutionsSettingsFilePath))
             {
                 string loadedSolutionsSettings = File.ReadAllText(SolutionsSettingsFilePath);
-                var deserializedJson  = JsonConvert.DeserializeObject<SavedTabsFile>(loadedSolutionsSettings);
+                var deserializedJson  = JsonConvert.DeserializeObject<SavedSollutions>(loadedSolutionsSettings);
                 if(deserializedJson is null)
                 {
                     return CreateNewSolutionSettings();
@@ -67,38 +68,41 @@ namespace HoldMyTabs
             }
             else
             {
-                SavedTabsFile newSettings = new();
+                SavedSollutions newSettings = new();
                 SaveSolutionsSettingsFile(newSettings);
                 return newSettings;
             }
         }
 
-        private static SavedTabsFile CreateNewSolutionSettings()
+        private static SavedSollutions CreateNewSolutionSettings()
         {
-            SavedTabsFile newSettings = new();
+            SavedSollutions newSettings = new();
             SaveSolutionsSettingsFile(newSettings);
             return newSettings;
         }
 
-        public static SavedTabsFile GetSavedSolution(string solutionName)
+        public static SavedSollutions GetSavedSolution(string solutionName)
         {
             if (string.IsNullOrWhiteSpace(solutionName))
                 return null;
 
-            SavedTabsFile currentSettings = GetSavedSolutionsSettings();
+            SavedSollutions currentSettings = GetSavedSolutionsSettings();
 
-            return new SavedTabsFile(
-                currentSettings.Solutions.Where(s =>
-                string.Equals(s.FullName, solutionName, StringComparison.OrdinalIgnoreCase)).ToList()
+            var savedSollutions = new SavedSollutions(
+                currentSettings.Solutions.OrderByDescending(x => x.CreatDate).Where(s =>
+                    string.Equals(s.FullName, solutionName, StringComparison.OrdinalIgnoreCase)
+                ).ToList()
             );
+
+            return savedSollutions;
         }
 
-        public static SavedTabsFile GetAllSolutions()
+        public static SavedSollutions GetAllSolutions()
         {
             return GetSavedSolutionsSettings();
         }
 
-        public static void SaveSolution(SavedTabsFile solutionSettings)
+        public static void SaveSolution(SavedSollutions solutionSettings)
         {
             if (solutionSettings is null)
                 return;
