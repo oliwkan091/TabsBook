@@ -77,6 +77,7 @@ namespace HoldMyTabs
                 try
                 {
                     ProjectItem proj = dte.Solution.FindProjectItem(tab.FullName);
+                    //TODO
                     //if (proj == null)
                     //    continue;
 

@@ -4,18 +4,13 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Forms;
 using System.Windows.Input;
 using static HoldMyTabs.SavedTabsManagment;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.MessageBox;
 using TextBox = System.Windows.Controls.TextBox;
@@ -28,6 +23,7 @@ namespace HoldMyTabs
         private ObservableCollection<string> names;
         private SavedSollutions solutionSettings;
         private readonly ToolWindowPane _toolWindowPane;
+        private bool _enableFiltering = false;
 
         public SaveTabsWindowControl(ToolWindowPane toolWindowPane)
         {
@@ -201,19 +197,45 @@ namespace HoldMyTabs
             SavedTabsManagment.SaveSolution(this.solutionSettings);
         }
 
+        private void OnComboPreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            _enableFiltering = true;
+            btnOpen.IsEnabled = false;
+        }
+
+        private void OnComboPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _enableFiltering = false;
+        }
+
+        private void OnComboSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboSavedInfo.SelectedItem is not null)
+                btnOpen.IsEnabled = true;
+        }
+
+        private void OnComboPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Back || e.Key == Key.Delete)
+            {
+                _enableFiltering = true;
+                btnOpen.IsEnabled = false;
+            }
+        }
+
         private void OnComboTextChanged(object sender, TextChangedEventArgs e)
         {
-            var tb = e.OriginalSource as TextBox;
-            if (tb == null) return;
-            
-            string searchText = tb.Text;
+            var inputValue = e.OriginalSource as TextBox;
 
-            //Prevent autoselect of values
+            if (inputValue == null) return;
+            if (!_enableFiltering) return;
+            
+            string searchText = inputValue.Text;
             comboSavedInfo.SelectedIndex = -1;
 
             var cv = CollectionViewSource.GetDefaultView(comboSavedInfo.ItemsSource);
 
-            if (string.IsNullOrEmpty(tb.Text))
+            if (string.IsNullOrEmpty(inputValue.Text))
             {
                 cv.Filter = null;
             }
@@ -229,8 +251,8 @@ namespace HoldMyTabs
             if (!cv.IsEmpty && !comboSavedInfo.IsDropDownOpen)
             {
                 comboSavedInfo.IsDropDownOpen = true;
-                tb.SelectionStart = tb.Text.Length;
-                tb.SelectionLength = 0;
+                inputValue.SelectionStart = inputValue.Text.Length;
+                inputValue.SelectionLength = 0;
             }
         }
     }
