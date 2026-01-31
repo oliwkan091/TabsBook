@@ -11,7 +11,14 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <ComboBox Name="comboSavedInfo" Width="200" Height="25" Margin="0,0,10,0"/>
+            <ComboBox Name="comboSavedInfo" 
+                      Width="200" Height="25" Margin="0,0,10,0" 
+                      IsEditable="True" 
+                      IsDropDownOpen="True" 
+                      TextBoxBase.TextChanged="OnComboTextChanged" 
+                      IsTextSearchEnabled="False" 
+                      StaysOpenOnEdit="True" 
+            />
             <Button Name="btnOpen" Width="75" Height="25" Click="btnOpen_Click">Open</Button>
         </StackPanel>
 

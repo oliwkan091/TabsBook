@@ -11,10 +11,14 @@ using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Forms;
+using System.Windows.Input;
 using static HoldMyTabs.SavedTabsManagment;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.MessageBox;
+using TextBox = System.Windows.Controls.TextBox;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace HoldMyTabs
@@ -53,6 +57,14 @@ namespace HoldMyTabs
                 names.Insert(0, newEntry);
                 comboSavedInfo.SelectedItem = newEntry;
                 SaveNewTab();
+
+                IVsStatusbar statusBar = (IVsStatusbar)ServiceProvider.GlobalProvider.GetService(typeof(SVsStatusbar));
+                int frozen;
+                statusBar.IsFrozen(out frozen);
+                if (frozen == 0)
+                {
+                    statusBar.SetText("Zapisano");
+                }
             }
             else
             {
@@ -187,6 +199,39 @@ namespace HoldMyTabs
             solution.Tabs.AddRange(TabUtils.ExtractAllOpenTabs(dte.Documents));
             this.solutionSettings.Solutions.Add(solution);
             SavedTabsManagment.SaveSolution(this.solutionSettings);
+        }
+
+        private void OnComboTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var tb = e.OriginalSource as TextBox;
+            if (tb == null) return;
+            
+            string searchText = tb.Text;
+
+            //Prevent autoselect of values
+            comboSavedInfo.SelectedIndex = -1;
+
+            var cv = CollectionViewSource.GetDefaultView(comboSavedInfo.ItemsSource);
+
+            if (string.IsNullOrEmpty(tb.Text))
+            {
+                cv.Filter = null;
+            }
+            else
+            {
+                cv.Filter = (obj) =>
+                {
+                    string item = obj as string;
+                    return item != null && item.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                };
+            }
+
+            if (!cv.IsEmpty && !comboSavedInfo.IsDropDownOpen)
+            {
+                comboSavedInfo.IsDropDownOpen = true;
+                tb.SelectionStart = tb.Text.Length;
+                tb.SelectionLength = 0;
+            }
         }
     }
 }
