@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="TabsBook.f4dd22b3-220c-4b5c-a8d3-51a793aa59d5" Version="1.0.3" Language="en-US" Publisher="oliwkan091" />
+        <Identity Id="TabsBook.2777D41A-CE69-42DB-86E1-DDA0DBCF8F00" Version="1.0.4" Language="en-US" Publisher="oliwkan091" />
         <DisplayName>Tabs Book</DisplayName>
         <Description xml:space="preserve">Tabs Book allows you to take a "snapshot" of your currently open document tabs—preserving their exact order and pinned status—and restore them instantly at a later time. Whether you are switching between feature branches, investigating a bug, or reviewing code, you can now save your workspace context with a custom name and return to it in seconds.</Description>
         <GettingStartedGuide>Guide.html</GettingStartedGuide>
         <Icon>Resources\Icon90.png</Icon>
+        <Preview>true</Preview>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
