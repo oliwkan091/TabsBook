@@ -13,4 +13,6 @@ Imporatnt notice: If you need to preservce the exact order of tabs you need to r
 ### Restore Tabs
 ![Restore](https://github.com/user-attachments/assets/b2d72604-91c8-4076-884c-727630b0c4a3)
 
-
+## Technical Details
+### 📂 File Output and Storage
+Data about tabs is saved in "Documents/" folder in file "SolutionsSettings.txt"
