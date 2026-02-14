@@ -6,14 +6,14 @@ Tabs Book allows you to take a "snapshot" of your currently open document tabs�
 
 ## 📖 How to Use
 
-#Save Tabs
+### Save Tabs
 ![Add](https://github.com/user-attachments/assets/c36ec617-dcdd-447e-be40-3f620259ffa9)
 Imporatnt notice: If you need to preservce the exact order of tabs you need to restart that project (or whole visual studio).
 
-#Restore Tabs
+### Restore Tabs
 ![Restore](https://github.com/user-attachments/assets/b2d72604-91c8-4076-884c-727630b0c4a3)
 
 
 
 
-> ℹ️ **Attribution:** This extension is a fork of / based on the excellent work done by [hristoforyordanov92] in the [OriginalRepositoryName]([https://github.com/original/repo](https://github.com/hristoforyordanov92/VSTabSaver/tree/main?tab=MIT-1-ov-file)) repository.
+> ℹ️ **Attribution:** This extension is a fork of / based on the excellent work done by [hristoforyordanov92] in the [VSTabSaver](https://github.com/hristoforyordanov92/VSTabSaver) repository.
