@@ -1,4 +1,4 @@
-# <img width="90" height="90" alt="Icon" src="https://github.com/user-attachments/assets/05f21cfa-f50e-482b-8568-b0726605b708" /> TabsBook
+# <img width="90" height="90" alt="Icon" src="https://github.com/user-attachments/assets/8f020286-dc2a-424d-980f-a9d053b17f2a" /> TabsBook
 Tabs Book allows you to take a "snapshot" of your currently open document tabs—preserving their exact order and pinned status—and restore them instantly at a later time. Whether you are switching between feature branches, investigating a bug, or reviewing code, you can now save your workspace context with a custom name and return to it in seconds.
 
 ## 🏆 Credits & Attribution
