@@ -7,13 +7,13 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Task = System.Threading.Tasks.Task;
 
-namespace HoldMyTabs
+namespace TabsBook
 {
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    [Guid(HoldMyTabsPackage.PackageGuidString)]
+    [Guid(TabsBookPackage.PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(SaveTabsWindow), Transient = true)]
-    public sealed class HoldMyTabsPackage : AsyncPackage
+    public sealed class TabsBookPackage : AsyncPackage
     {
         public const string PackageGuidString = "392072a6-8ff8-4dfb-acf8-080c960082db";
 

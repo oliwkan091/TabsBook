@@ -6,7 +6,7 @@ using System;
 using System.ComponentModel.Design;
 using Task = System.Threading.Tasks.Task;
 
-namespace HoldMyTabs
+namespace TabsBook
 {
     internal sealed class SaveTabsWindowCommand
     {

@@ -10,13 +10,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using static HoldMyTabs.SavedTabsManagment;
+using static TabsBook.SavedTabsManagment;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.MessageBox;
 using TextBox = System.Windows.Controls.TextBox;
 using UserControl = System.Windows.Controls.UserControl;
 
-namespace HoldMyTabs
+namespace TabsBook
 {
     public partial class SaveTabsWindowControl : UserControl
     {

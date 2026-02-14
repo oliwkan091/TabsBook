@@ -2,54 +2,37 @@
 <CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <Extern href="stdidcmd.h" />
   <Extern href="vsshlids.h" />
-  <Commands package="guidHoldMyTabsPackage">
+  <Commands package="guidTabsBookPackage">
     
     <Groups>
-      <Group guid="HoldMyTabsPackageCommandSet" id="ToolMenuGroup" priority="0x0600">
+      <Group guid="TabsBookPackageCommandSet" id="ToolMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
       </Group>
     </Groups>
     
     <Buttons>
-      <Button guid="HoldMyTabsPackageCommandSet" id="SaveTabsWindowCommandId" priority="0x0100" type="Button">
-        <Parent guid="HoldMyTabsPackageCommandSet" id="ToolMenuGroup" />
-        <Icon guid="guidImages" id="bmpPic1" />
+      <Button guid="TabsBookPackageCommandSet" id="SaveTabsWindowCommandId" priority="0x0100" type="Button">
+        <Parent guid="TabsBookPackageCommandSet" id="ToolMenuGroup" />
+        <Icon guid="iconImage" id="iconImage1" />
         <Strings>
-          <ButtonText>Save Open Tabs</ButtonText>
+          <ButtonText>Tabs Book</ButtonText>
         </Strings>
       </Button>
     </Buttons>
 
     <Bitmaps>
-      <Bitmap guid="guidImages" href="Resources\BaseIcons.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
-      <Bitmap guid="guidImages3" href="Resources\BaseIcons.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+	    <Bitmap guid="iconImage" href="Resources\Icon19.png" usedList="iconImage1" />
     </Bitmaps>
   </Commands>
 
   <Symbols>
-    <GuidSymbol name="guidHoldMyTabsPackage" value="{392072a6-8ff8-4dfb-acf8-080c960082db}" />
-    <GuidSymbol name="HoldMyTabsPackageCommandSet" value="{251a4762-0953-4fa2-928c-9b21b7aed94a}">
+    <GuidSymbol name="guidTabsBookPackage" value="{392072a6-8ff8-4dfb-acf8-080c960082db}" />
+    <GuidSymbol name="TabsBookPackageCommandSet" value="{251a4762-0953-4fa2-928c-9b21b7aed94a}">
       <IDSymbol name="SaveTabsWindowCommandId" value="0x0100" />
       <IDSymbol name="ToolMenuGroup" value="0x1020" />
     </GuidSymbol>
-
-    <GuidSymbol name="guidImages" value="{01cb55f7-2e64-482d-881e-2abaf355b5b3}">
-      <IDSymbol name="bmpPic1" value="1" />
-      <IDSymbol name="bmpPic2" value="2" />
-      <IDSymbol name="bmpPicSearch" value="3" />
-      <IDSymbol name="bmpPicX" value="4" />
-      <IDSymbol name="bmpPicArrows" value="5" />
-      <IDSymbol name="bmpPicStrikethrough" value="6" />
-    </GuidSymbol>
-
-
-    <GuidSymbol name="guidImages3" value="{7836603e-6d8d-42bb-b63d-55bee3c02b27}">
-      <IDSymbol name="bmpPic1" value="1" />
-      <IDSymbol name="bmpPic2" value="2" />
-      <IDSymbol name="bmpPicSearch" value="3" />
-      <IDSymbol name="bmpPicX" value="4" />
-      <IDSymbol name="bmpPicArrows" value="5" />
-      <IDSymbol name="bmpPicStrikethrough" value="6" />
-    </GuidSymbol>
+	<GuidSymbol name="iconImage" value="{01cb55f7-2e64-482d-881e-2abaf355b5b3}">
+		<IDSymbol name="iconImage1" value="1" />
+	</GuidSymbol>
   </Symbols>
 </CommandTable>

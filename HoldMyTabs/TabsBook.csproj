@@ -47,7 +47,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HoldMyTabsPackage.cs" />
+    <Compile Include="TabsBookPackage.cs" />
     <Compile Include="SavedTabsManagment.cs" />
     <Compile Include="TabUtils.cs" />
     <Compile Include="Windows\SaveTabsWindow\SaveTabsWindow.cs" />
@@ -79,10 +79,25 @@
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.13.2127" NoWarn="NU1604" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Icon19.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Resources\Icon90.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <VSCTCompile Include="HoldMyTabsPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
-    <Content Include="Resources\BaseIcons.png" />
+    <Content Include="Guide.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="License.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

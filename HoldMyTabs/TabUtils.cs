@@ -5,9 +5,9 @@ using System.Reflection;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
-using static HoldMyTabs.SavedTabsManagment;
+using static TabsBook.SavedTabsManagment;
 
-namespace HoldMyTabs
+namespace TabsBook
 {
     internal static class TabUtils
     {
