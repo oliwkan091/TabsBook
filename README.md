@@ -2,7 +2,7 @@
 Tabs Book allows you to take a "snapshot" of your currently open document tabs—preserving their exact order and pinned status—and restore them instantly at a later time. Whether you are switching between feature branches, investigating a bug, or reviewing code, you can now save your workspace context with a custom name and return to it in seconds.
 
 ## 🏆 Credits & Attribution
-This extension is a fork of / based on the excellent work done by [hristoforyordanov92] in the [VSTabSaver](https://github.com/hristoforyordanov92/VSTabSaver) repository.
+This extension is a based on the excellent work done by [hristoforyordanov92] in the [VSTabSaver](https://github.com/hristoforyordanov92/VSTabSaver) repository.
 
 ## 📖 How to Use
 
